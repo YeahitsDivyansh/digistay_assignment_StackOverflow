@@ -65,22 +65,22 @@ function AdminDashboardPage() {
 
   const runAction = useCallback(
     async (fn, successMessage) => {
-    setActionPending(true);
-    setActionMessage("");
-    setActionError("");
-    try {
-      await fn();
-      setActionMessage(successMessage);
-      loadStats();
-    } catch (err) {
-      if (err.status === 401) {
-        resetAdminSession();
-      } else {
-        setActionError(err.message || "Action failed.");
+      setActionPending(true);
+      setActionMessage("");
+      setActionError("");
+      try {
+        await fn();
+        setActionMessage(successMessage);
+        loadStats();
+      } catch (err) {
+        if (err.status === 401) {
+          resetAdminSession();
+        } else {
+          setActionError(err.message || "Action failed.");
+        }
+      } finally {
+        setActionPending(false);
       }
-    } finally {
-      setActionPending(false);
-    }
     },
     [loadStats, resetAdminSession]
   );
@@ -281,5 +281,3 @@ function AdminDashboardPage() {
 }
 
 export default AdminDashboardPage;
-
-
